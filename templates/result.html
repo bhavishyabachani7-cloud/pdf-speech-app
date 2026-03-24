@@ -3,13 +3,37 @@
 <head>
     <title>Result</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            background: #000;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-family: Arial;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        a {
+            color: orange;
+            text-decoration: none;
+            font-size: 18px;
+        }
+    </style>
 </head>
 
-<body style="text-align:center; background:black; color:white; padding:20px;">
+<body>
 
 <h1>🎧 Your Audio is Ready</h1>
 
-<audio id="audio" controls autoplay style="width:90%;">
+<div class="card">
+
+<audio id="audio" controls autoplay style="width:95%;">
     <source src="{{ audio_file }}" type="audio/mpeg">
 </audio>
 
@@ -21,13 +45,20 @@
 
 <br><br>
 
-<a href="{{ audio_file }}" download style="color:orange; font-size:18px;">
-⬇ Download Audio
-</a>
+<a href="{{ audio_file }}" download>⬇ Download Audio</a>
+
+</div>
 
 <br><br>
 
-<a href="/" style="color:white;">⬅ Back</a>
+<!-- 💰 AD SPACE -->
+<div class="card">
+    <p>Ad Space (AdSense)</p>
+</div>
+
+<br>
+
+<a href="/">⬅ Back</a>
 
 </body>
 </html>
