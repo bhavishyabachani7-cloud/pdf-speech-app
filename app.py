@@ -2,14 +2,9 @@ from flask import Flask, render_template, request
 import os
 import PyPDF2
 import uuid
-import pytesseract
-from PIL import Image
 from gtts import gTTS
 
 app = Flask(__name__)
-
-# Tesseract path (only for local image OCR)
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # Ensure static folder exists
 if not os.path.exists("static"):
@@ -36,12 +31,6 @@ def convert():
         # ✍️ Text → Speech
         elif mode == "text":
             text = request.form.get('text')
-
-        # 🖼️ Image → Speech
-        elif mode == "image":
-            image_file = request.files['image']
-            img = Image.open(image_file)
-            text = pytesseract.image_to_string(img)
 
         if not text.strip():
             return "❌ No text found."
