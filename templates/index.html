@@ -7,32 +7,55 @@
     <style>
         body {
             font-family: Arial;
-            background: linear-gradient(135deg, #1d2671, #c33764);
+            background: linear-gradient(135deg, #141e30, #243b55);
             color: white;
             text-align: center;
             padding: 20px;
         }
 
+        h1 {
+            font-size: 28px;
+        }
+
         .box {
             background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 15px;
-            max-width: 400px;
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            max-width: 420px;
             margin: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
         }
 
         input, textarea, select, button {
-            width: 90%;
+            width: 95%;
             margin: 10px;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 12px;
+            border-radius: 12px;
             border: none;
+            font-size: 14px;
+        }
+
+        textarea {
+            height: 100px;
         }
 
         button {
-            background: #ff9800;
+            background: linear-gradient(45deg, #ff9800, #ff5722);
             color: white;
             font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .ad-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -51,18 +74,24 @@
 
     <input type="file" name="pdf" accept=".pdf">
 
-    <textarea name="text" placeholder="Type text here..."></textarea>
+    <textarea name="text" placeholder="Paste or type text..."></textarea>
 
     <h3>🎙️ Voice Style</h3>
     <select name="voice">
         <option value="normal">🎙️ Normal</option>
-        <option value="calm">😌 Calm / Relax</option>
-        <option value="fast">⚡ Fast / Energetic</option>
+        <option value="calm">😌 Calm</option>
+        <option value="fast">⚡ Fast</option>
     </select>
 
     <button type="submit">Convert 🚀</button>
 
 </form>
+
+<!-- 💰 AD SPACE -->
+<div class="ad-box">
+    <p>Ad Space (Google AdSense)</p>
+</div>
+
 </div>
 
 </body>
