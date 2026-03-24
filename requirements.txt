@@ -2,5 +2,5 @@ Flask==2.3.3
 gTTS==2.3.2
 PyPDF2==3.0.1
 pytesseract==0.3.10
-Pillow==10.3.0
+Pillow==9.5.0
 gunicorn==21.2.0
