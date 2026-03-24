@@ -57,15 +57,30 @@
             background: rgba(255,255,255,0.08);
             border-radius: 10px;
         }
+
+        .loading {
+            display: none;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #ffcc00;
+        }
     </style>
+
+    <script>
+        function showLoading() {
+            document.getElementById("loading").style.display = "block";
+        }
+    </script>
+
 </head>
 
 <body>
 
-<h1>🔥 AI Speech Tool</h1>
+<h1>🔥 AI PDF / Text to Speech</h1>
 
 <div class="box">
-<form action="/convert" method="post" enctype="multipart/form-data">
+
+<form action="/convert" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
 
     <select name="mode">
         <option value="pdf">📄 PDF → Speech</option>
@@ -74,22 +89,27 @@
 
     <input type="file" name="pdf" accept=".pdf">
 
-    <textarea name="text" placeholder="Paste or type text..."></textarea>
+    <textarea name="text" placeholder="Paste or type text here..."></textarea>
 
-    <h3>🎙️ Voice Style</h3>
+    <h3>🎙️ Select Voice</h3>
     <select name="voice">
-        <option value="normal">🎙️ Normal</option>
-        <option value="calm">😌 Calm</option>
-        <option value="fast">⚡ Fast</option>
+        <option value="female_india">🇮🇳 Female (India)</option>
+        <option value="male_india">🇮🇳 Male (India)</option>
+        <option value="female_us">🇺🇸 Female (US)</option>
+        <option value="male_uk">🇬🇧 Male (UK)</option>
     </select>
 
     <button type="submit">Convert 🚀</button>
 
 </form>
 
-<!-- 💰 AD SPACE -->
+<div id="loading" class="loading">
+    ⏳ Converting... please wait
+</div>
+
+<!-- 💰 Ad Space -->
 <div class="ad-box">
-    <p>Ad Space (Google AdSense)</p>
+    <p>Ad Space (Add Google AdSense later)</p>
 </div>
 
 </div>
