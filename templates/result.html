@@ -3,34 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Audio Ready</title>
 
+<!-- In-page AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3876451779508554"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
 <style>
-body {
-    background: #0f2027;
-    color: white;
-    text-align: center;
-    font-family: Arial;
-}
-
-.container {
-    margin-top: 100px;
-}
-
-audio {
-    width: 80%;
-    margin-top: 20px;
-}
-
-a {
-    display: block;
-    margin-top: 20px;
-    color: #00c6ff;
-}
+body { background:#0f2027; color:white; text-align:center; font-family:Arial; }
+.container { margin-top:100px; }
+audio { width:80%; margin-top:20px; }
+a { display:block; margin-top:20px; color:#00c6ff; }
 </style>
 </head>
-
 <body>
 
 <div class="container">
@@ -38,13 +30,12 @@ a {
 <h2>🎧 Your Audio is Ready!</h2>
 
 <audio controls>
-    <source src="{{ audio_file }}" type="audio/mpeg">
+<source src="{{ audio_file }}" type="audio/mpeg">
 </audio>
 
 <a href="{{ audio_file }}" download>⬇ Download Audio</a>
 <a href="/">⬅ Back</a>
 
 </div>
-
 </body>
 </html>
