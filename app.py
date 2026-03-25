@@ -7,10 +7,8 @@ import os
 
 app = Flask(__name__)
 
-# Ensure static folder exists
 os.makedirs("static", exist_ok=True)
 
-# 🎧 Voice mapping
 VOICE_MAP = {
     "female_india": "en-IN-NeerjaNeural",
     "male_india": "en-IN-PrabhatNeural",
@@ -18,44 +16,31 @@ VOICE_MAP = {
     "male_uk": "en-GB-RyanNeural"
 }
 
-# 🏠 Home
 @app.route("/")
 def index():
     return render_template("index.html")
 
-
-# ⚡ Convert function
 @app.route("/convert", methods=["POST"])
 def convert():
     mode = request.form.get("mode")
     voice = request.form.get("voice")
     speed = request.form.get("speed", "1")
-
     text = ""
 
-    # 📄 PDF → Text
     if mode == "pdf":
         file = request.files.get("pdf")
-
         if not file or file.filename == "":
             return "❌ Please upload a PDF file!"
-
         reader = PyPDF2.PdfReader(file)
         for page in reader.pages:
             text += page.extract_text() or ""
-
-    # ✍️ Text → Speech
     elif mode == "text":
         text = request.form.get("text")
-
         if not text.strip():
             return "❌ Please enter some text!"
-
-    # ❌ Safety
     if not text.strip():
         return "❌ No text found!"
 
-    # 🎚️ Speed control
     rate = "+0%"
     if speed == "0.8":
         rate = "-20%"
@@ -64,24 +49,17 @@ def convert():
     elif speed == "1.5":
         rate = "+40%"
 
-    # 🎧 Voice selection
     voice_name = VOICE_MAP.get(voice, "en-IN-NeerjaNeural")
-
-    # 🎵 Unique filename
     filename = f"static/{uuid.uuid4()}.mp3"
 
-    # 🔊 Generate audio
     async def generate():
         communicate = edge_tts.Communicate(text, voice_name, rate=rate)
         await communicate.save(filename)
 
     asyncio.run(generate())
 
-    # 🎉 Result page
     return render_template("result.html", audio_file=filename)
 
-
-# 📄 Extra pages (AdSense ready)
 @app.route("/about")
 def about():
     return render_template("about.html")
@@ -98,7 +76,5 @@ def terms():
 def contact():
     return render_template("contact.html")
 
-
-# ▶️ Run
 if __name__ == "__main__":
     app.run(debug=True)
