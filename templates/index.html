@@ -1,115 +1,172 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>AI Speech Tool</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            font-family: Arial;
-            background: linear-gradient(135deg, #141e30, #243b55);
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
+<title>PDF to Speech | AI Voice Generator</title>
 
-        h1 {
-            font-size: 28px;
-        }
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+}
 
-        .box {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 20px;
-            max-width: 420px;
-            margin: auto;
-            box-shadow: 0 0 20px rgba(0,0,0,0.4);
-        }
+/* Container */
+.container {
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 25px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    text-align: center;
+}
 
-        input, textarea, select, button {
-            width: 95%;
-            margin: 10px;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
-            font-size: 14px;
-        }
+/* Heading */
+h1 {
+    font-size: 26px;
+    margin-bottom: 20px;
+}
 
-        textarea {
-            height: 100px;
-        }
+/* Inputs */
+select, textarea, input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
 
-        button {
-            background: linear-gradient(45deg, #ff9800, #ff5722);
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
+/* Button */
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
-        button:hover {
-            opacity: 0.9;
-        }
+button:hover {
+    transform: scale(1.05);
+}
 
-        .ad-box {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 10px;
-        }
+/* Loader */
+.loader {
+    display: none;
+    margin-top: 15px;
+}
 
-        .loading {
-            display: none;
-            margin-top: 15px;
-            font-size: 14px;
-            color: #ffcc00;
-        }
-    </style>
+.loader div {
+    width: 10px;
+    height: 10px;
+    background: white;
+    margin: 3px;
+    display: inline-block;
+    border-radius: 50%;
+    animation: bounce 1.2s infinite;
+}
 
-    <script>
-        function showLoading() {
-            document.getElementById("loading").style.display = "block";
-        }
-    </script>
+.loader div:nth-child(2) { animation-delay: 0.2s; }
+.loader div:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+/* Feature boxes */
+.features {
+    margin-top: 25px;
+    text-align: left;
+}
+
+.features div {
+    margin: 5px 0;
+}
+
+/* Footer */
+.footer {
+    margin-top: 20px;
+    font-size: 13px;
+}
+
+a {
+    color: #00c6ff;
+    text-decoration: none;
+    margin: 0 5px;
+}
+</style>
+
+<script>
+function showLoader() {
+    document.getElementById("loader").style.display = "block";
+}
+</script>
 
 </head>
 
 <body>
 
-<h1>🔥 AI PDF / Text to Speech</h1>
+<div class="container">
 
-<div class="box">
+<h1>🎧 AI PDF → Speech</h1>
 
-<form action="/convert" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
+<form action="/convert" method="post" enctype="multipart/form-data" onsubmit="showLoader()">
 
-    <select name="mode">
-        <option value="pdf">📄 PDF → Speech</option>
-        <option value="text">✍️ Text → Speech</option>
-    </select>
+<select name="mode">
+<option value="pdf">📄 PDF → Speech</option>
+<option value="text">✍️ Text → Speech</option>
+</select>
 
-    <input type="file" name="pdf" accept=".pdf">
+<input type="file" name="pdf">
 
-    <textarea name="text" placeholder="Paste or type text here..."></textarea>
+<textarea name="text" placeholder="Paste your text here..."></textarea>
 
-    <h3>🎙️ Select Voice</h3>
-    <select name="voice">
-        <option value="female_india">🇮🇳 Female (India)</option>
-        <option value="male_india">🇮🇳 Male (India)</option>
-        <option value="female_us">🇺🇸 Female (US)</option>
-        <option value="male_uk">🇬🇧 Male (UK)</option>
-    </select>
+<select name="voice">
+<option value="female_india">🇮🇳 Female Voice</option>
+<option value="male_india">🇮🇳 Male Voice</option>
+<option value="female_us">🇺🇸 Female Voice</option>
+<option value="male_uk">🇬🇧 Male Voice</option>
+</select>
 
-    <button type="submit">Convert 🚀</button>
+<select name="speed">
+<option value="1">Normal Speed</option>
+<option value="0.8">Slow</option>
+<option value="1.2">Fast</option>
+<option value="1.5">Very Fast</option>
+</select>
+
+<button type="submit">⚡ Generate Audio</button>
+
+<div id="loader" class="loader">
+<div></div><div></div><div></div>
+<p>Generating AI Voice...</p>
+</div>
 
 </form>
 
-<div id="loading" class="loading">
-    ⏳ Converting... please wait
+<div class="features">
+<div>⚡ Fast Conversion</div>
+<div>🎧 Real AI Voices</div>
+<div>📱 Mobile Friendly</div>
+<div>🔒 Safe & Secure</div>
 </div>
 
-<!-- 💰 Ad Space -->
-<div class="ad-box">
-    <p>Ad Space (Add Google AdSense later)</p>
+<div class="footer">
+<a href="/about">About</a> |
+<a href="/privacy">Privacy</a> |
+<a href="/terms">Terms</a> |
+<a href="/contact">Contact</a>
 </div>
 
 </div>
