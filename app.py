@@ -1,15 +1,16 @@
 from flask import Flask, render_template, request
-import os
-import uuid
 import PyPDF2
-import asyncio
 import edge_tts
+import asyncio
+import uuid
+import os
 
 app = Flask(__name__)
 
-if not os.path.exists("static"):
-    os.makedirs("static")
+# Ensure static folder exists
+os.makedirs("static", exist_ok=True)
 
+# 🎧 Voice mapping
 VOICE_MAP = {
     "female_india": "en-IN-NeerjaNeural",
     "male_india": "en-IN-PrabhatNeural",
@@ -17,43 +18,87 @@ VOICE_MAP = {
     "male_uk": "en-GB-RyanNeural"
 }
 
+# 🏠 Home
 @app.route("/")
 def index():
     return render_template("index.html")
 
-async def generate_audio(text, voice, filename):
-    communicate = edge_tts.Communicate(text, voice)
-    await communicate.save(filename)
 
+# ⚡ Convert function
 @app.route("/convert", methods=["POST"])
 def convert():
-    text = ""
     mode = request.form.get("mode")
-    voice_key = request.form.get("voice")
+    voice = request.form.get("voice")
+    speed = request.form.get("speed", "1")
 
-    voice = VOICE_MAP.get(voice_key, "en-IN-NeerjaNeural")
+    text = ""
 
+    # 📄 PDF → Text
     if mode == "pdf":
-        pdf_file = request.files["pdf"]
-        reader = PyPDF2.PdfReader(pdf_file)
+        file = request.files.get("pdf")
+
+        if not file or file.filename == "":
+            return "❌ Please upload a PDF file!"
+
+        reader = PyPDF2.PdfReader(file)
         for page in reader.pages:
             text += page.extract_text() or ""
 
+    # ✍️ Text → Speech
     elif mode == "text":
         text = request.form.get("text")
 
-    if not text.strip():
-        return "No text found!"
+        if not text.strip():
+            return "❌ Please enter some text!"
 
+    # ❌ Safety
+    if not text.strip():
+        return "❌ No text found!"
+
+    # 🎚️ Speed control
+    rate = "+0%"
+    if speed == "0.8":
+        rate = "-20%"
+    elif speed == "1.2":
+        rate = "+20%"
+    elif speed == "1.5":
+        rate = "+40%"
+
+    # 🎧 Voice selection
+    voice_name = VOICE_MAP.get(voice, "en-IN-NeerjaNeural")
+
+    # 🎵 Unique filename
     filename = f"static/{uuid.uuid4()}.mp3"
 
-    # 🔥 FIX: Safe async run
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(generate_audio(text, voice, filename))
-    loop.close()
+    # 🔊 Generate audio
+    async def generate():
+        communicate = edge_tts.Communicate(text, voice_name, rate=rate)
+        await communicate.save(filename)
 
+    asyncio.run(generate())
+
+    # 🎉 Result page
     return render_template("result.html", audio_file=filename)
 
+
+# 📄 Extra pages (AdSense ready)
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html")
+
+@app.route("/terms")
+def terms():
+    return render_template("terms.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+
+# ▶️ Run
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run(debug=True)
